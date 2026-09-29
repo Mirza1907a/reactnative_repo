@@ -1,98 +1,181 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import { router } from 'expo-router';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function SplashScreen() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <View style={styles.container}>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+      {/* Main Content */}
+      <View style={styles.content}>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+        {/* Perfume Image */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={require('../../assets/images/perfume.webp')}
+            style={styles.image}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        </View>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        {/* App Name */}
+        <Text style={styles.title}>
+          Perfume Hub
+        </Text>
+
+        <Text style={styles.subtitle}>
+          Discover Your Signature Scent
+        </Text>
+
+        <Text style={styles.description}>
+          Explore a beautiful collection of fragrances
+          carefully selected to match your style,
+          personality and every special moment.
+        </Text>
+
+      </View>
+
+      {/* Bottom Section */}
+      <View style={styles.bottom}>
+
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() => router.push('/signup')}
+        >
+          <Text style={styles.buttonText}>
+            Get Started
+          </Text>
+
+          <Text style={styles.arrow}>
+            →
+          </Text>
+        </TouchableOpacity>
+
+        <Text style={styles.bottomText}>
+          Elegance • Style • Fragrance
+        </Text>
+
+      </View>
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: '#EAF7F6',
+    paddingHorizontal: 25,
+    justifyContent: 'space-between',
+    paddingTop: 70,
+    paddingBottom: 45,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
+
+  content: {
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
   },
-  heroSection: {
+
+  imageContainer: {
+    width: 210,
+    height: 210,
+    borderRadius: 105,
+    backgroundColor: '#FFFFFF',
+
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+
+    overflow: 'hidden',
+
+    shadowColor: '#2F8F89',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 15,
+    elevation: 8,
   },
+
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+
   title: {
+    fontSize: 38,
+    fontWeight: '800',
+    color: '#202124',
+    marginTop: 28,
+  },
+
+  subtitle: {
+    fontSize: 16,
+    color: '#2F8F89',
+    fontWeight: '700',
+    marginTop: 8,
     textAlign: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
+
+  description: {
+    fontSize: 15,
+    color: '#777777',
+    lineHeight: 23,
+    textAlign: 'center',
+    marginTop: 22,
+    paddingHorizontal: 15,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  bottom: {
+    alignItems: 'center',
   },
+
+  button: {
+    width: '85%',
+    height: 58,
+    borderRadius: 30,
+
+    backgroundColor: '#2F8F89',
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    shadowColor: '#2F8F89',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '800',
+  },
+
+  arrow: {
+    color: '#FFFFFF',
+    fontSize: 25,
+    fontWeight: '700',
+    marginLeft: 12,
+  },
+
+  bottomText: {
+    color: '#999999',
+    fontSize: 12,
+    marginTop: 18,
+  },
+
 });
